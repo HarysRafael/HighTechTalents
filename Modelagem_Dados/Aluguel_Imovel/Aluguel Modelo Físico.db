@@ -1,0 +1,100 @@
+
+
+CREATE TABLE Telefone (
+    Id Integer PRIMARY KEY UNIQUE,
+    DDD varchar(255),
+    Numero varchar(255),
+    Contato varchar(255)
+);
+
+CREATE TABLE Proprietario (
+    Id Integer UNIQUE PRIMARY KEY,
+    Nome varchar(255),
+    Cpf varchar(255),
+    Telefone Integer,
+    Imovel Integer
+);
+
+
+CREATE TABLE Inquilino (
+    Id Integer UNIQUE PRIMARY KEY,
+    Nome varchar(255),
+    Cpf varchar(255),
+    Telefone Integer,
+    Contrato integer
+);
+
+CREATE TABLE Endereco (
+    Id Integer UNIQUE PRIMARY KEY,
+    Rua varchar(255),
+    Numero varchar(255),
+    Complemento varchar(255),
+    Bairro varchar(255),
+    Cidade varchar(255),
+    Cep varchar(255)
+);
+
+CREATE TABLE Imovel (
+    Id Integer UNIQUE PRIMARY KEY,
+    Preco float NOT NULL,
+    Tipo varchar(255),
+    Metro2 varchar(255),
+    Proprietario integer,
+    Inquilino Integer,
+    Endereco integer NOT NULL,
+    Contrato integer
+);
+
+CREATE TABLE Corretor (
+    Id Integer UNIQUE PRIMARY KEY,
+    Nome varchar(255), 
+    Matricula varchar(255),
+    Telefone integer,
+    Contrato integer
+);
+
+
+
+CREATE TABLE Contrato (
+    Id Integer UNIQUE PRIMARY KEY,
+    Duracao_Meses integer,
+    Corretor integer,
+    Inquilino integer,
+    Imovel integer
+);
+
+ALTER TABLE Contrato
+ADD CONSTRAINT fk_imovel FOREIGN KEY (imovel) REFERENCES imovel(id);
+
+ALTER TABLE Contrato
+ADD CONSTRAINT fk_corretor FOREIGN KEY (corretor) REFERENCES corretor(id);
+
+ALTER TABLE Contrato
+ADD CONSTRAINT fk_inquilino FOREIGN KEY (inquilino) REFERENCES inquilino(id);
+ 
+ALTER TABLE Corretor
+ADD CONSTRAINT fk_telefone FOREIGN KEY (telefone) REFERENCES telefone(id);
+
+ALTER TABLE Corretor
+ADD CONSTRAINT fk_contrato FOREIGN KEY (contrato) REFERENCES contrato(id);
+
+ALTER TABLE Imovel
+ADD CONSTRAINT fk_proprietario FOREIGN KEY (proprietario) REFERENCES proprietario(id);
+
+ALTER TABLE Imovel
+ADD CONSTRAINT fk_endereco FOREIGN KEY (Endereco) REFERENCES Endereco(id);
+
+ALTER TABLE Imovel
+ADD CONSTRAINT fk_contrato FOREIGN KEY (contrato) REFERENCES contrato(id);
+
+ALTER TABLE Proprietario
+ADD CONSTRAINT fk_telefone FOREIGN KEY (telefone) REFERENCES telefone(id);
+
+ALTER TABLE Proprietario
+ADD CONSTRAINT fk_imovel FOREIGN KEY (imovel) REFERENCES imovel(id);
+
+ALTER TABLE Inquilino
+ADD CONSTRAINT fk_telefone FOREIGN KEY (telefone) REFERENCES telefone(id);
+
+ALTER TABLE Inquilino
+ADD CONSTRAINT fk_contrato FOREIGN KEY (contrato) REFERENCES contrato(id);
